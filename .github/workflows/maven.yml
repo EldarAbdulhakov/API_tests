@@ -26,9 +26,9 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
           # Шаг для ожидания старта контейнера
-      - name: Wait for service to be ready
-        run: |
-          docker exec my_service /bin/sh -c 'until curl -s http://localhost:8080/health; do echo waiting for service; sleep 2; done'
+#      - name: Wait for service to be ready
+#        run: |
+#          docker exec my_service /bin/sh -c 'until curl -s http://localhost:8080/health; do echo waiting for service; sleep 2; done'
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
