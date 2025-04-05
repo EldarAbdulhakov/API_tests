@@ -4,21 +4,12 @@ services:
 ##        options: --health-cmd="curl --silent --fail http://localhost:8080/health || exit 1"  # Параметры для проверки здоровья
         ports:
           - 8080:8080  # Проброс порта из контейнера на хостовую машину
-        networks:
-          - app-network
+        depends_on:
+          - post
+          - mig
 
       post:
         image: eldarabdulhakov/sdet_practicum:post
-        ports:
-          - 5432:5432
-        networks:
-          - app-network
 
       mig:
         image: eldarabdulhakov/sdet_practicum:mig
-        networks:
-          - app-network
-
-networks:
-  app-network:
-    driver: bridge
