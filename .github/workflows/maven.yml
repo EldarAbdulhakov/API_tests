@@ -11,12 +11,12 @@ jobs:
 
     runs-on: ubuntu-latest
 
-#    services:
-#      my_service:
-#        image: eldarabdulhakov/sdet_practicum:latest
+    services:
+      my_service:
+        image: eldarabdulhakov/sdet_practicum:latest
 ##        options: --health-cmd="curl --silent --fail http://localhost:8080/health || exit 1"  # Параметры для проверки здоровья
-#        ports:
-#          - 8080:8080  # Проброс порта из контейнера на хостовую машину
+        ports:
+          - "8080:8080"  # Проброс порта из контейнера на хостовую машину
 
     steps:
       - uses: actions/checkout@v4
@@ -36,11 +36,11 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+#      - name: Set up QEMU
+#        uses: docker/setup-qemu-action@v1
 
-      - name: Run Docker Compose
-        run: docker-compose up -d
+#      - name: Run Docker
+#        run: docker-compose up -d
 
       - name: Run tests with Maven
         run: mvn test
