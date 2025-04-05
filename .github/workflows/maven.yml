@@ -11,12 +11,17 @@ jobs:
 
     runs-on: ubuntu-latest
 
-#    services:
-#      my_service:
-#        image: eldarabdulhakov/sdet_practicum:latest
+    services:
+      my_service:
+        image: eldarabdulhakov/sdet_practicum:latest
 ###        options: --health-cmd="curl --silent --fail http://localhost:8080/health || exit 1"  # Параметры для проверки здоровья
-#        ports:
-#          - "8080:8080"  # Проброс порта из контейнера на хостовую машину
+        ports:
+          - 8080:8080
+        options: >-
+          --health-cmd "curl -f http://localhost:8080 || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
 
     steps:
       - uses: actions/checkout@v4
@@ -31,9 +36,9 @@ jobs:
           sudo apt-get install -y docker-compose  
 
         # Шаг: Строим и запускаем контейнеры
-      - name: Build and run containers with Docker Compose
-        run: |
-          docker-compose up -d --build
+#      - name: Build and run containers with Docker Compose
+#        run: |
+#          docker-compose up -d --build
 
 #        # Шаг: Ожидаем, пока сервис будет готов к подключению
 #      - name: Wait for API to be ready
@@ -54,10 +59,10 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
 
-      - name: Wait for containers to be ready
-        run: |
-         docker-compose up -d --build
-         sleep 10  
+#      - name: Wait for containers to be ready
+#        run: |
+#         docker-compose up -d --build
+#         sleep 10
 
       - name: Run tests with Maven
         run: mvn test
