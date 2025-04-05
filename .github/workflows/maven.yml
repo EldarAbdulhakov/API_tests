@@ -35,6 +35,14 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y docker-compose  
 
+      - name: Pull images
+        run: docker-compose pull
+
+      - name: Wait for containers to be ready
+        run: |
+          docker-compose up -d --build
+          sleep 10    
+
 #        # Шаг: Ожидаем, пока сервис будет готов к подключению
 #      - name: Wait for API to be ready
 #        run: |
@@ -44,9 +52,9 @@ jobs:
 #          done
 
 #          # Шаг для ожидания старта контейнера
-#      - name: Wait for service to be ready
-#        run: |
-#          curl --silent --fail http://localhost:8080 || exit 1
+      - name: Wait for service to be ready
+        run: |
+          curl --silent --fail http://localhost:8080 || exit 1
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -54,21 +62,8 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
 
-      - name: Set up Maven
-        run: |
-          sudo apt-get update  
-          sudo apt-get install -y maven    
-
-      - name: Pull images
-        run: docker-compose pull
-
-      - name: Wait for containers to be ready
-        run: |
-         docker-compose up -d --build
-         sleep 10
-
       - name: Run tests with Maven
-        run: docker-compose exec api mvn test
+        run: mvn test
 
 #      - name: Load test report history
 #        uses: actions/checkout@v3
