@@ -5,16 +5,13 @@ target/
 
 ### IntelliJ IDEA ###
 .idea/*
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
 *.iws
 *.iml
 *.ipr
 .gitignore
 .allure/*
 allure-results/*
+target/*
 
 ### Eclipse ###
 .apt_generated
