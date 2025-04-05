@@ -38,7 +38,7 @@ jobs:
         # Шаг: Ожидаем, пока сервис будет готов к подключению
       - name: Wait for API to be ready
         run: |
-          until curl --silent --fail http://localhost:8000/api/health; do
+          until curl --silent --fail http://localhost:8080/api/health; do
             echo "Waiting for API to be ready..."
             sleep 5
           done    
