@@ -1,7 +1,6 @@
-version: '3'
 services:
       my_service:
         image: eldarabdulhakov/sdet_practicum:latest
 ##        options: --health-cmd="curl --silent --fail http://localhost:8080/health || exit 1"  # Параметры для проверки здоровья
         ports:
-          - "8080:8080"  # Проброс порта из контейнера на хостовую машину
+          - 8080:8080  # Проброс порта из контейнера на хостовую машину
