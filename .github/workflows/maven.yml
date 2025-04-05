@@ -34,6 +34,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y docker-compose
+          docker-compose --version
 
         # Поднимем все контейнеры в фоновом режиме
       - name: Build and start containers
