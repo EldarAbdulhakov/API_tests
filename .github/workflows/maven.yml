@@ -11,11 +11,11 @@ jobs:
 
     runs-on: ubuntu-latest
 
-  services:
-    my_service:
-      image: eldarabdulhakov/sdet_practicum:tag
-      options: --health-cmd="curl --silent --fail http://localhost:8080/health || exit 1"  # Параметры для проверки здоровья
-      ports:
+    services:
+      my_service:
+        image: eldarabdulhakov/sdet_practicum:tag
+        options: --health-cmd="curl --silent --fail http://localhost:8080/health || exit 1"  # Параметры для проверки здоровья
+        ports:
           - 8080:8080  # Проброс порта из контейнера на хостовую машину
 
     steps:
