@@ -10,6 +10,8 @@ services:
 
       post:
         image: eldarabdulhakov/sdet_practicum:post
+        ports:
+          - 5432:5432
 
       mig:
         image: eldarabdulhakov/sdet_practicum:mig
