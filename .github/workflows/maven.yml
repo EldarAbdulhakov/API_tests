@@ -54,6 +54,11 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
 
+      - name: Set up Maven
+        run: |
+          sudo apt-get update  
+          sudo apt-get install -y maven    
+
       - name: Pull images
         run: docker-compose pull
 
