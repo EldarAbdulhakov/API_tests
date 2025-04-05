@@ -11,19 +11,37 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    services:
-      my_service:
-        image: eldarabdulhakov/sdet_practicum:latest
-##        options: --health-cmd="curl --silent --fail http://localhost:8080/health || exit 1"  # Параметры для проверки здоровья
-        ports:
-          - "8080:8080"  # Проброс порта из контейнера на хостовую машину
+#    services:
+#      my_service:
+#        image: eldarabdulhakov/sdet_practicum:latest
+###        options: --health-cmd="curl --silent --fail http://localhost:8080/health || exit 1"  # Параметры для проверки здоровья
+#        ports:
+#          - "8080:8080"  # Проброс порта из контейнера на хостовую машину
 
     steps:
       - uses: actions/checkout@v4
 
 #        # Шаг для настройки Docker
-      - name: Set up Docker Buildx
+      - name: Set up Docker
         uses: docker/setup-buildx-action@v2
+
+      - name: Set up Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose  
+
+        # Шаг: Строим и запускаем контейнеры
+      - name: Build and run containers with Docker Compose
+        run: |
+          docker-compose up -d --build
+
+        # Шаг: Ожидаем, пока сервис будет готов к подключению
+      - name: Wait for API to be ready
+        run: |
+          until curl --silent --fail http://localhost:8000/api/health; do
+            echo "Waiting for API to be ready..."
+            sleep 5
+          done    
 
 #          # Шаг для ожидания старта контейнера
 #      - name: Wait for service to be ready
@@ -35,9 +53,6 @@ jobs:
         with:
           java-version: '17'
           distribution: 'corretto'
-
-#      - name: Set up QEMU
-#        uses: docker/setup-qemu-action@v1
 
 #      - name: Run Docker
 #        run: docker-compose up -d
