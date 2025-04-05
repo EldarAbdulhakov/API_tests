@@ -11,17 +11,17 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    services:
-      my_service:
-        image: eldarabdulhakov/sdet_practicum:latest
-###        options: --health-cmd="curl --silent --fail http://localhost:8080/health || exit 1"  # Параметры для проверки здоровья
-        ports:
-          - 8080:8080
-        options: >-
-          --health-cmd "curl -f http://localhost:8080 || exit 1"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 3
+#    services:
+#      my_service:
+#        image: eldarabdulhakov/sdet_practicum:latest
+####        options: --health-cmd="curl --silent --fail http://localhost:8080/health || exit 1"  # Параметры для проверки здоровья
+#        ports:
+#          - 8080:8080
+#        options: >-
+#          --health-cmd "curl -f http://localhost:8080 || exit 1"
+#          --health-interval 10s
+#          --health-timeout 5s
+#          --health-retries 3
 
     steps:
       - uses: actions/checkout@v4
@@ -48,10 +48,10 @@ jobs:
 #            sleep 5
 #          done
 
-          # Шаг для ожидания старта контейнера
-      - name: Wait for service to be ready
-        run: |
-          curl --silent --fail http://localhost:8080 || exit 1
+#          # Шаг для ожидания старта контейнера
+#      - name: Wait for service to be ready
+#        run: |
+#          curl --silent --fail http://localhost:8080 || exit 1
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -59,10 +59,10 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
 
-#      - name: Wait for containers to be ready
-#        run: |
-#         docker-compose up -d --build
-#         sleep 10
+      - name: Wait for containers to be ready
+        run: |
+         docker-compose up -d --build
+         sleep 10
 
       - name: Run tests with Maven
         run: mvn test
