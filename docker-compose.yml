@@ -3,15 +3,16 @@ services:
         image: eldarabdulhakov/sdet_practicum:latest
 ##        options: --health-cmd="curl --silent --fail http://localhost:8080/health || exit 1"  # Параметры для проверки здоровья
         ports:
-          - 8080:8080  # Проброс порта из контейнера на хостовую машину
+          - "8080:8080"  # Проброс порта из контейнера на хостовую машину
         depends_on:
           - post
           - mig
+#        entrypoint: /bin/bash -c "until curl --silent --fail http://mig:8080; do sleep 2; done && /start-api"  # Пример ожидания
 
       post:
         image: eldarabdulhakov/sdet_practicum:post
         ports:
-          - 5432:5432
+          - "5432:5432"
 
       mig:
         image: eldarabdulhakov/sdet_practicum:mig
