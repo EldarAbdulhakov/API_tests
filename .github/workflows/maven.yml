@@ -63,7 +63,7 @@ jobs:
          sleep 10
 
       - name: Run tests with Maven
-        run: mvn test
+        run: docker-compose exec api mvn test
 
 #      - name: Load test report history
 #        uses: actions/checkout@v3
