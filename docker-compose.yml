@@ -7,7 +7,7 @@ services:
           - 8080:8080  # Проброс порта из контейнера на хостовую машину
         depends_on:
           - post
-
+          - mig
 #        entrypoint: /bin/bash -c "until curl --silent --fail http://mig:8080; do sleep 2; done && /start-api"  # Пример ожидания
 
       post:
