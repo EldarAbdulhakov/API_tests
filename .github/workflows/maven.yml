@@ -30,18 +30,23 @@ jobs:
       - name: Set up Docker
         uses: docker/setup-buildx-action@v2
 
-      - name: Set up Docker Compose
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-compose  
+#      - name: Set up Docker Compose
+#        run: |
+#          sudo apt-get update
+#          sudo apt-get install -y docker-compose
 
-      - name: Pull images
-        run: docker-compose pull
-
-      - name: Wait for containers to be ready
+        # Поднимем все контейнеры в фоновом режиме
+      - name: Build and start containers
         run: |
-          docker-compose up --build -d
-          sleep 10    
+            docker-compose -f docker-compose.yml up -d  
+
+#      - name: Pull images
+#        run: docker-compose pull
+
+#      - name: Wait for containers to be ready
+#        run: |
+#          docker-compose up --build -d
+#          sleep 10
 
 #        # Шаг: Ожидаем, пока сервис будет готов к подключению
 #      - name: Wait for API to be ready
