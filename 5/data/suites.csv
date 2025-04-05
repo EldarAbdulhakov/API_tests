@@ -1,6 +1,0 @@
-"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"broken","Sat Apr 05 17:59:33 GMT 2025","Sat Apr 05 17:59:34 GMT 2025","1398","ParallelTestSuite","test1","tests.CreateEntityTest","tests.CreateEntityTest","testCreateEntity","testCreateEntity","Checking the create entity"
-"broken","Sat Apr 05 17:59:33 GMT 2025","Sat Apr 05 17:59:34 GMT 2025","1402","ParallelTestSuite","test3","tests.GetEntityTest","tests.GetEntityTest","testGetAllEntities","testGetAllEntities","Checking the get all entities"
-"broken","Sat Apr 05 17:59:34 GMT 2025","Sat Apr 05 17:59:34 GMT 2025","40","ParallelTestSuite","test3","tests.GetEntityTest","tests.GetEntityTest","testGetEntity","testGetEntity","Checking the get last entity"
-"broken","Sat Apr 05 17:59:33 GMT 2025","Sat Apr 05 17:59:34 GMT 2025","1401","ParallelTestSuite","test4","tests.UpdateEntityTest","tests.UpdateEntityTest","testUpdateEntity","testUpdateEntity","Checking the update entity"
-"broken","Sat Apr 05 17:59:33 GMT 2025","Sat Apr 05 17:59:34 GMT 2025","1396","ParallelTestSuite","test2","tests.DeleteEntityTest","tests.DeleteEntityTest","testDeleteEntity","testDeleteEntity","Checking the delete first entity"
