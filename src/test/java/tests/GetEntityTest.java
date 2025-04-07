@@ -33,7 +33,6 @@ public class GetEntityTest {
                 .when()
                 .get("api/get/%s".formatted(BaseRequests.getLastEntityId()))
                 .then()
-                .log().all()
                 .statusCode(200)
                 .extract().as(Entity.class);
 
@@ -49,7 +48,6 @@ public class GetEntityTest {
                 .when()
                 .get("api/getAll")
                 .then()
-                .log().all()
                 .statusCode(200)
                 .extract().body().jsonPath().getList("entity", Entity.class);
 
@@ -66,7 +64,6 @@ public class GetEntityTest {
                 .get("api/getAll%s".formatted("?title=" + BaseRequests.title + "&verified="
                         + BaseRequests.verified + "&page=" + BaseRequests.page + "&perPage=" + BaseRequests.perPage))
                 .then()
-                .log().all()
                 .statusCode(200)
                 .extract().body().jsonPath().getList("entity", Entity.class);
 

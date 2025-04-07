@@ -38,7 +38,6 @@ public class CreateEntityTest {
                 .when()
                 .post("api/create")
                 .then()
-                .log().all()
                 .statusCode(200)
                 .extract()
                 .asString();

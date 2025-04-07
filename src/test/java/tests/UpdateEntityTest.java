@@ -42,7 +42,6 @@ public class UpdateEntityTest {
                 .when()
                 .patch("api/patch/%s".formatted(BaseRequests.getLastEntityId()))
                 .then()
-                .log().all()
                 .statusCode(204);
 
         Assert.assertEquals(BaseRequests.getLastEntity().getId(), BaseRequests.expectedLastId);

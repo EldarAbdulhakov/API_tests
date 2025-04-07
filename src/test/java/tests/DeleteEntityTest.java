@@ -27,7 +27,6 @@ public class DeleteEntityTest {
                 .when()
                 .delete("api/delete/%s".formatted(BaseRequests.getFirstEntityId()))
                 .then()
-                .log().all()
                 .statusCode(204);
 
         Assert.assertFalse(BaseRequests.getEntityList()
