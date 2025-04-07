@@ -4,7 +4,11 @@ import helpers.BaseRequests;
 import io.qameta.allure.Description;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import org.testng.Assert;
 import org.testng.annotations.Test;
+import pojo.Response.ResponseEntity;
+
+import java.util.List;
 
 public class GetEntityTest {
 
@@ -16,47 +20,50 @@ public class GetEntityTest {
     @Test
     @Description("Checking the get last entity")
     public void testGetEntity() {
-        RestAssured
+        ResponseEntity responseEntity = RestAssured
                 .given()
+                .accept(ContentType.JSON)
                 .when()
-                .contentType(ContentType.JSON)
-                .get("http://localhost:8080/api/get/%s".formatted(BaseRequests.getLastEntityNumberId()))
+                .get("http://localhost:8080/api/get/%s".formatted(BaseRequests.getLastEntityId()))
                 .then()
                 .log().all()
-                .statusCode(200);
+                .statusCode(200)
+                .extract().as(ResponseEntity.class);
 
-        //проверить все поля
+        Assert.assertEquals(responseEntity.getId(), BaseRequests.getLastEntityId());
     }
 
     @Test
     @Description("Checking the get all entities")
     public void testGetAllEntities() {
-        RestAssured
+        List<ResponseEntity> responseEntityList = RestAssured
                 .given()
+                .accept(ContentType.JSON)
                 .when()
-                .contentType(ContentType.JSON)
                 .get("http://localhost:8080/api/getAll")
                 .then()
                 .log().all()
-                .statusCode(200);
+                .statusCode(200)
+                .extract().body().jsonPath().getList("entity", ResponseEntity.class);
 
-        //проверить ???????????? посмотреть проверки ниже
+        Assert.assertEquals(responseEntityList.size(), BaseRequests.getCountEntities());
     }
 
-//    @Test
-//    @Description("Checking the get all entities №2")
-//    public void testGetAllEntities2() {
-//        List<ResponseEntity> entities = RestAssured
-//                .given()
-//                .when()
-//                .contentType(ContentType.JSON)
-//                .get("api/getAll")
-//                .then()
-//                .log().all()
-//                .statusCode(200)
-//                .extract().body().jsonPath().getList("entity", ResponseEntity.class);
-//
-//        entities.forEach(i -> Assert.assertEquals(i.getTitle(), "Заголовок сущности"));
-//        Assert.assertEquals(entities.size(), 47);
-//    }
+    @Test
+    @Description("Checking the get all entities with all parameters")
+    public void testGetAllEntitiesParameterized() {
+        List<ResponseEntity> responseEntityList = RestAssured
+                .given()
+                .accept(ContentType.JSON)
+                .when()
+                .get("http://localhost:8080/api/getAll%s".formatted("?title=" + BaseRequests.title + "&verified="
+                        + BaseRequests.verified + "&page=" + BaseRequests.page + "&perPage=" + BaseRequests.perPage))
+                .then()
+                .log().all()
+                .statusCode(200)
+                .extract().body().jsonPath().getList("entity", ResponseEntity.class);
+
+        responseEntityList.forEach(obj -> Assert.assertEquals(obj.getTitle(), BaseRequests.title));
+        responseEntityList.forEach(obj -> Assert.assertEquals(obj.getVerified(), BaseRequests.verified));
+    }
 }

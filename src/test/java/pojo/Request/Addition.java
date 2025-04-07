@@ -10,6 +10,9 @@ public class Addition {
         this.additional_number = additional_number;
     }
 
+    public Addition() {
+    }
+
     public String getAdditional_info() {
         return additional_info;
     }

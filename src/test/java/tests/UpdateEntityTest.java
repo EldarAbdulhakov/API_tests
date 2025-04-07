@@ -4,6 +4,7 @@ import helpers.BaseRequests;
 import io.qameta.allure.Description;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import pojo.Request.Addition;
 import pojo.Request.Entity;
@@ -20,15 +21,17 @@ public class UpdateEntityTest {
 
         RestAssured
                 .given()
+                .contentType(ContentType.JSON)
                 .body(entity)
                 .when()
-                .contentType(ContentType.JSON)
-                .patch("http://localhost:8080/api/patch/%s".formatted(BaseRequests.getLastEntityNumberId()))
+                .patch("http://localhost:8080/api/patch/%s".formatted(BaseRequests.getLastEntityId()))
                 .then()
                 .log().all()
                 .statusCode(204);
 
-
-        //headers:  Date: Fri,04 Apr 2025 17:06:51 GMT
+        Assert.assertEquals(BaseRequests.getLastEntity().getId(), BaseRequests.expectedLastId);
+        Assert.assertEquals(BaseRequests.getLastEntity().getTitle(), entity.getTitle());
+        Assert.assertEquals(BaseRequests.getLastEntity().getVerified(), entity.getVerified());
+        Assert.assertEquals(BaseRequests.getLastEntity().getImportant_numbers(), entity.getImportant_numbers());
     }
 }

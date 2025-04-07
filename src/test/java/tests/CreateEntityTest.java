@@ -28,9 +28,9 @@ public class CreateEntityTest {
 
         String entityId = RestAssured
                 .given()
+                .contentType(ContentType.JSON)
                 .body(entity)
                 .when()
-                .contentType(ContentType.JSON)
                 .post("http://localhost:8080/api/create")
                 .then()
                 .log().all()
@@ -38,6 +38,9 @@ public class CreateEntityTest {
                 .extract()
                 .asString();
 
-        Assert.assertEquals(Integer.parseInt(entityId), BaseRequests.getLastEntityNumberId());
+        Assert.assertEquals(Integer.parseInt(entityId), BaseRequests.getLastEntityId());
+        Assert.assertEquals(BaseRequests.getLastEntity().getTitle(), entity.getTitle());
+        Assert.assertEquals(BaseRequests.getLastEntity().getImportant_numbers(), entity.getImportant_numbers());
+        Assert.assertEquals(BaseRequests.getLastEntity().getVerified(), entity.getVerified());
     }
 }

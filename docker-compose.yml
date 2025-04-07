@@ -1,6 +1,5 @@
 services:
       api:
-        build: .
         image: eldarabdulhakov/sdet_practicum:latest
 ##        options: --health-cmd="curl --silent --fail http://localhost:8080/health || exit 1"  # Параметры для проверки здоровья
         ports:

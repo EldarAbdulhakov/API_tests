@@ -18,6 +18,9 @@ public class ResponseEntity {
         this.important_numbers = important_numbers;
     }
 
+    public ResponseEntity() {
+    }
+
     public Integer getId() {
         return id;
     }
@@ -42,11 +45,11 @@ public class ResponseEntity {
         this.verified = verified;
     }
 
-    public ResponseAddition getAddition() {
+    public ResponseAddition getResponseAddition() {
         return responseAddition;
     }
 
-    public void setAddition(ResponseAddition responseAddition) {
+    public void setResponseAddition(ResponseAddition responseAddition) {
         this.responseAddition = responseAddition;
     }
 
