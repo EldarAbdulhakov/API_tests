@@ -12,6 +12,9 @@ public class ResponseAddition {
         this.additional_number = additional_number;
     }
 
+    public ResponseAddition() {
+    }
+
     public Integer getId() {
         return id;
     }
