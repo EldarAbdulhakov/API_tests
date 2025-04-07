@@ -1,12 +1,11 @@
 package helpers;
 
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
-import pojo.Request.Addition;
-import pojo.Request.Entity;
-import pojo.Response.ResponseEntity;
+import models.Entity;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -26,20 +25,26 @@ public class BaseRequests {
     public static int perPage = 10;
 
     public static RequestSpecification initRequestSpecification() {
-        return new RequestSpecBuilder()
-                .setBaseUri("http://localhost:8080/")
+        RequestSpecBuilder requestSpecBuilder = new RequestSpecBuilder();
+//        RestAssured.filters(new AllureRestAssured());
+        requestSpecBuilder
                 .setContentType(ContentType.JSON)
-                .build();
+                .addFilter(new AllureRestAssured())
+                .setBaseUri("http://localhost:8080/")
+                .setAccept(ContentType.JSON);
+        RequestSpecification requestSpecification;
+        return requestSpecification = requestSpecBuilder.build();
     }
 
     public static void createEntity() {
-        Entity entity = new Entity(new Addition("Дополнительные сведения", 123),
-                List.of(42, 87, 15), "Заголовок сущности", true);
+        Entity entityPojo = Entity.builder().build();
+//        Entity entity = new Entity(new Addition("Дополнительные сведения", 123),
+//                List.of(42, 87, 15), "Заголовок сущности", true);
 
         RestAssured
                 .given()
                 .contentType(ContentType.JSON)
-                .body(entity)
+                .body(entityPojo)
                 .when()
                 .post("http://localhost:8080/api/create");
     }
@@ -51,68 +56,68 @@ public class BaseRequests {
                 .when()
                 .get("http://localhost:8080/api/getAll")
                 .then()
-                .extract().body().jsonPath().getList("entity", ResponseEntity.class).size();
+                .extract().body().jsonPath().getList("entity", Entity.class).size();
     }
 
     public static Integer getLastEntityId() {
-        List<ResponseEntity> entities = RestAssured
+        List<Entity> entities = RestAssured
                 .given()
                 .accept(ContentType.JSON)
                 .when()
                 .get("http://localhost:8080/api/getAll")
                 .then()
-                .extract().body().jsonPath().getList("entity", ResponseEntity.class);
+                .extract().body().jsonPath().getList("entity", Entity.class);
 
         expectedLastId = entities.get(entities.size() - 1).getId();
         return expectedLastId;
     }
 
     public static Integer getFirstEntityId() {
-        List<ResponseEntity> entities = RestAssured
+        List<Entity> entities = RestAssured
                 .given()
                 .accept(ContentType.JSON)
                 .when()
                 .get("http://localhost:8080/api/getAll")
                 .then()
-                .extract().body().jsonPath().getList("entity", ResponseEntity.class);
+                .extract().body().jsonPath().getList("entity", Entity.class);
 
         expectedFirstId = entities.get(0).getId();
         return expectedFirstId;
     }
 
-    public static List<ResponseEntity> getEntityList() {
+    public static List<Entity> getEntityList() {
         return RestAssured
                 .given()
                 .accept(ContentType.JSON)
                 .when()
                 .get("http://localhost:8080/api/getAll")
                 .then()
-                .extract().body().jsonPath().getList("entity", ResponseEntity.class);
+                .extract().body().jsonPath().getList("entity", Entity.class);
     }
 
-    public static Optional<ResponseEntity> getEntityById(Integer id) {
-        List<ResponseEntity> responseEntity = RestAssured
+    public static Optional<Entity> getEntityById(Integer id) {
+        List<Entity> entity = RestAssured
                 .given()
                 .accept(ContentType.JSON)
                 .when()
                 .get("http://localhost:8080/api/getAll")
                 .then()
-                .extract().body().jsonPath().getList("entity", ResponseEntity.class);
+                .extract().body().jsonPath().getList("entity", Entity.class);
 
-        return responseEntity
+        return entity
                 .stream()
                 .filter(obj -> obj.getId().equals(id))
                 .findFirst();
     }
 
-    public static ResponseEntity getLastEntity() {
+    public static Entity getLastEntity() {
         return RestAssured
                 .given()
                 .accept(ContentType.JSON)
                 .when()
                 .get("http://localhost:8080/api/get/%s".formatted(BaseRequests.getLastEntityId()))
                 .then()
-                .extract().as(ResponseEntity.class);
+                .extract().as(Entity.class);
     }
 
     public static String getTime() {
