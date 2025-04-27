@@ -5,6 +5,7 @@ import io.qameta.allure.Description;
 import io.restassured.RestAssured;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.requestSpecification;
@@ -16,10 +17,14 @@ public class DeleteEntityTest {
         requestSpecification = BaseRequests.initRequestSpecification();
     }
 
-    @Test
+    @BeforeMethod
+    public void createEntity() {
+        BaseRequests.createEntity();
+    }
+
+    @Test()
     @Description("Checking the delete first entity")
     public void testDeleteEntity() {
-        BaseRequests.createEntity();
 
         RestAssured
                 .given()

@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
+import static io.restassured.RestAssured.requestSpecification;
+
 public class BaseRequests {
 
     public static Integer expectedLastId;
@@ -43,18 +45,26 @@ public class BaseRequests {
 
         RestAssured
                 .given()
-                .contentType(ContentType.JSON)
+                .spec(initRequestSpecification())
                 .body(entityPojo)
                 .when()
-                .post("http://localhost:8080/api/create");
+                .post("api/create");
+    }
+
+    public static void deleteEntity() {
+        RestAssured
+                .given()
+                .spec(initRequestSpecification())
+                .when()
+                .delete("api/delete/%s".formatted(BaseRequests.getLastEntityId()));
     }
 
     public static Integer getCountEntities() {
         return RestAssured
                 .given()
-                .accept(ContentType.JSON)
+                .spec(initRequestSpecification())
                 .when()
-                .get("http://localhost:8080/api/getAll")
+                .get("api/getAll")
                 .then()
                 .extract().body().jsonPath().getList("entity", Entity.class).size();
     }
@@ -62,9 +72,9 @@ public class BaseRequests {
     public static Integer getLastEntityId() {
         List<Entity> entities = RestAssured
                 .given()
-                .accept(ContentType.JSON)
+                .spec(initRequestSpecification())
                 .when()
-                .get("http://localhost:8080/api/getAll")
+                .get("api/getAll")
                 .then()
                 .extract().body().jsonPath().getList("entity", Entity.class);
 
@@ -75,9 +85,9 @@ public class BaseRequests {
     public static Integer getFirstEntityId() {
         List<Entity> entities = RestAssured
                 .given()
-                .accept(ContentType.JSON)
+                .spec(initRequestSpecification())
                 .when()
-                .get("http://localhost:8080/api/getAll")
+                .get("api/getAll")
                 .then()
                 .extract().body().jsonPath().getList("entity", Entity.class);
 
@@ -88,9 +98,9 @@ public class BaseRequests {
     public static List<Entity> getEntityList() {
         return RestAssured
                 .given()
-                .accept(ContentType.JSON)
+                .spec(initRequestSpecification())
                 .when()
-                .get("http://localhost:8080/api/getAll")
+                .get("api/getAll")
                 .then()
                 .extract().body().jsonPath().getList("entity", Entity.class);
     }
@@ -98,9 +108,9 @@ public class BaseRequests {
     public static Optional<Entity> getEntityById(Integer id) {
         List<Entity> entity = RestAssured
                 .given()
-                .accept(ContentType.JSON)
+                .spec(initRequestSpecification())
                 .when()
-                .get("http://localhost:8080/api/getAll")
+                .get("api/getAll")
                 .then()
                 .extract().body().jsonPath().getList("entity", Entity.class);
 
@@ -113,9 +123,19 @@ public class BaseRequests {
     public static Entity getLastEntity() {
         return RestAssured
                 .given()
-                .accept(ContentType.JSON)
+                .spec(initRequestSpecification())
                 .when()
-                .get("http://localhost:8080/api/get/%s".formatted(BaseRequests.getLastEntityId()))
+                .get("api/get/%s".formatted(BaseRequests.getLastEntityId()))
+                .then()
+                .extract().as(Entity.class);
+    }
+
+    public static Entity getFirstEntity() {
+        return RestAssured
+                .given()
+                .spec(initRequestSpecification())
+                .when()
+                .get("api/get/%s".formatted(BaseRequests.getFirstEntityId()))
                 .then()
                 .extract().as(Entity.class);
     }

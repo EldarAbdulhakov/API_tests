@@ -5,8 +5,7 @@ import io.qameta.allure.Description;
 import io.restassured.RestAssured;
 import models.Entity;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.util.List;
 
@@ -19,10 +18,15 @@ public class GetEntityTest {
         requestSpecification = BaseRequests.initRequestSpecification();
     }
 
-//    @BeforeClass
-//    public void setup() {
-//        BaseRequests.initRequestSpecification();
-//    }
+    @BeforeMethod
+    public void createEntity() {
+        BaseRequests.createEntity();
+    }
+
+    @AfterMethod
+    public void deleteEntity() {
+        BaseRequests.deleteEntity();
+    }
 
     @Test
     @Description("Checking the get last entity")
